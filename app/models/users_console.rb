@@ -1,0 +1,2 @@
+class UsersConsole < ApplicationRecord
+end

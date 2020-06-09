@@ -1,0 +1,2 @@
+class AnnoncesTag < ApplicationRecord
+end
