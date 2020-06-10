@@ -7,7 +7,26 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'faker'
 
-10.times do
+
+Annonce.destroy_all
+User.destroy_all
+Badge.destroy_all
+Contact.destroy_all
+Game.destroy_all
+Console.destroy_all
+City.destroy_all
+Tag.destroy_all
+Location.destroy_all
+AnnonceTag.destroy_all
+ConsoleGame.destroy_all
+UserBadge.destroy_all
+UserConsole.destroy_all
+UserContact.destroy_all
+UserGame.destroy_all
+UserLocation.destroy_all
+PrivateMessage.destroy_all
+
+20.times do
   User.create!(
     name: Faker::Name.first_name,
     surname: Faker::Name.last_name,
@@ -17,7 +36,7 @@ require 'faker'
   )
 end
 
-10.times do
+20.times do
 	Contact.create!(
  		type_contact: ["discord","battlenet","steam","nintendo"].sample,  
  		value: Faker::Artist.name,
@@ -26,14 +45,14 @@ end
  )
 end
 
-10.times do
+20.times do
 	Console.create!(
 		name: Faker::Game.platform,
 		available: Faker::Boolean.boolean(true_ratio: 0.2),
 		)
 end
 
-10.times do
+20.times do
 	Game.create!(
 		name: Faker::Game.title,
 		available: Faker::Boolean.boolean(true_ratio: 0.2),
@@ -47,23 +66,25 @@ end
 		)
 end
 
-10.times do
+20.times do
 	City.create!(
 		name: Faker::Address.city,
 		country: Faker::Address.country,
+		location_id: Location.all.sample,
 		)
 end
 
-10.times do
+20.times do
 	Location.create!(
 		street_number: rand(1...105),
 		street_name: Faker::Address.street_name,
 		post_code: Faker::Address.zip_code,
-		city_id: [1,2,3,4,5,6,7,8,9,10].sample,
+		city_id: City.all.sample.id,
+		user_id: User.all.sample.id,
 		)
 end
 
-10.times do
+5.times do
 	Tag.create!(
 		name: ["Event","Achat/Revente","Recherche de groupe","Location", "Coaching"].sample,
 		)
@@ -75,53 +96,56 @@ end
 		title:  Faker::Hipster.sentence,
 		price: Faker::Commerce.price,
 		event_date: Faker::Date.forward(days: 23),
+		user_id: User.all.sample.id,
+		console_id: Console.all.sample.id,
+		game_id: Game.all.sample.id,
 		)
 end
 
 20.times do
-	AnnoncesTag.create!(
-		annonce_id: rand(1...20),
-		tag_id: rand(1...5),
+	AnnonceTag.create!(
+		annonce_id: Annonce.all.sample.id,
+		tag_id: Tag.all.sample.id,
 		)
 end
 
-10.times do
-	GamesConsole.create!(
-		game_id: [1,2,3,4,5,6,7,8,9,10].sample,
-		console_id: [1,2,3,4,5,6,7,8,9,10].sample,
+20.times do
+	ConsoleGame.create!(
+		game_id: Game.all.sample.id,
+		console_id: Console.all.sample.id,
 		)
 end
 
-10.times do
-	UsersBadge.create!(
-		user_id: [1,2,3,4,5,6,7,8,9,10].sample,
-		badge_id:[1,2,3,4,5,6,7,8,9,10].sample,
+20.times do
+	UserBadge.create!(
+		user_id: User.all.sample.id,
+		badge_id: Badge.all.sample.id,
 		)
 end
 
-10.times do
-	UsersConsole.create!(
-		user_id: [1,2,3,4,5,6,7,8,9,10].sample,
-		console_id:[1,2,3,4,5,6,7,8,9,10].sample,
+20.times do
+	UserConsole.create!(
+		user_id: User.all.sample.id,
+		console_id:Console.all.sample.id,
 		)
 end
-10.times do
-	UsersContact.create!(
-		user_id: [1,2,3,4,5,6,7,8,9,10].sample,
-		contact_id:[1,2,3,4,5,6,7,8,9,10].sample,
-		)
-end
-
-10.times do
-	UsersGame.create!(
-		user_id: [1,2,3,4,5,6,7,8,9,10].sample,
-		game_id:[1,2,3,4,5,6,7,8,9,10].sample,
+20.times do
+	UserContact.create!(
+		user_id: User.all.sample.id,
+		contact_id:Contact.all.sample.id,
 		)
 end
 
-10.times do
-	UsersLocation.create!(
-		user_id: [1,2,3,4,5,6,7,8,9,10].sample,
-		location_id:[1,2,3,4,5,6,7,8,9,10].sample,
+20.times do
+	UserGame.create!(
+		user_id: User.all.sample.id,
+		game_id: Game.all.sample.id,
+		)
+end
+
+20.times do
+	UserLocation.create!(
+		user_id: User.all.sample.id,
+		location_id: Location.all.sample.id,
 		)
 end

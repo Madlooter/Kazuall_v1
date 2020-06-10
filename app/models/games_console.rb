@@ -1,2 +1,0 @@
-class GamesConsole < ApplicationRecord
-end

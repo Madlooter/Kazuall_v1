@@ -1,2 +1,0 @@
-class UsersConsole < ApplicationRecord
-end

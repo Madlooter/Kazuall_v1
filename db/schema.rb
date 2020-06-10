@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_09_092612) do
+ActiveRecord::Schema.define(version: 2020_06_10_120701) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "annonce_tags", force: :cascade do |t|
+    t.bigint "annonce_id"
+    t.bigint "tag_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["annonce_id"], name: "index_annonce_tags_on_annonce_id"
+    t.index ["tag_id"], name: "index_annonce_tags_on_tag_id"
+  end
 
   create_table "annonces", force: :cascade do |t|
     t.text "description"
@@ -30,15 +39,6 @@ ActiveRecord::Schema.define(version: 2020_06_09_092612) do
     t.index ["user_id"], name: "index_annonces_on_user_id"
   end
 
-  create_table "annonces_tags", force: :cascade do |t|
-    t.bigint "annonce_id"
-    t.bigint "tag_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["annonce_id"], name: "index_annonces_tags_on_annonce_id"
-    t.index ["tag_id"], name: "index_annonces_tags_on_tag_id"
-  end
-
   create_table "badges", force: :cascade do |t|
     t.integer "point"
     t.string "name"
@@ -51,6 +51,17 @@ ActiveRecord::Schema.define(version: 2020_06_09_092612) do
     t.string "country"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "location_id"
+    t.index ["location_id"], name: "index_cities_on_location_id"
+  end
+
+  create_table "console_games", force: :cascade do |t|
+    t.bigint "game_id"
+    t.bigint "console_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["console_id"], name: "index_console_games_on_console_id"
+    t.index ["game_id"], name: "index_console_games_on_game_id"
   end
 
   create_table "consoles", force: :cascade do |t|
@@ -76,15 +87,6 @@ ActiveRecord::Schema.define(version: 2020_06_09_092612) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "games_consoles", force: :cascade do |t|
-    t.bigint "game_id"
-    t.bigint "console_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["console_id"], name: "index_games_consoles_on_console_id"
-    t.index ["game_id"], name: "index_games_consoles_on_game_id"
-  end
-
   create_table "locations", force: :cascade do |t|
     t.integer "street_number"
     t.string "street_name"
@@ -92,7 +94,9 @@ ActiveRecord::Schema.define(version: 2020_06_09_092612) do
     t.bigint "city_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
     t.index ["city_id"], name: "index_locations_on_city_id"
+    t.index ["user_id"], name: "index_locations_on_user_id"
   end
 
   create_table "private_messages", force: :cascade do |t|
@@ -111,6 +115,51 @@ ActiveRecord::Schema.define(version: 2020_06_09_092612) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "user_badges", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "badge_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["badge_id"], name: "index_user_badges_on_badge_id"
+    t.index ["user_id"], name: "index_user_badges_on_user_id"
+  end
+
+  create_table "user_consoles", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "console_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["console_id"], name: "index_user_consoles_on_console_id"
+    t.index ["user_id"], name: "index_user_consoles_on_user_id"
+  end
+
+  create_table "user_contacts", force: :cascade do |t|
+    t.bigint "contact_id"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contact_id"], name: "index_user_contacts_on_contact_id"
+    t.index ["user_id"], name: "index_user_contacts_on_user_id"
+  end
+
+  create_table "user_games", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "game_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_user_games_on_game_id"
+    t.index ["user_id"], name: "index_user_games_on_user_id"
+  end
+
+  create_table "user_locations", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "location_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["location_id"], name: "index_user_locations_on_location_id"
+    t.index ["user_id"], name: "index_user_locations_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -124,51 +173,6 @@ ActiveRecord::Schema.define(version: 2020_06_09_092612) do
     t.string "nickname"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
-  create_table "users_badges", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "badge_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["badge_id"], name: "index_users_badges_on_badge_id"
-    t.index ["user_id"], name: "index_users_badges_on_user_id"
-  end
-
-  create_table "users_consoles", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "console_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["console_id"], name: "index_users_consoles_on_console_id"
-    t.index ["user_id"], name: "index_users_consoles_on_user_id"
-  end
-
-  create_table "users_contacts", force: :cascade do |t|
-    t.bigint "contact_id"
-    t.bigint "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["contact_id"], name: "index_users_contacts_on_contact_id"
-    t.index ["user_id"], name: "index_users_contacts_on_user_id"
-  end
-
-  create_table "users_games", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "game_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["game_id"], name: "index_users_games_on_game_id"
-    t.index ["user_id"], name: "index_users_games_on_user_id"
-  end
-
-  create_table "users_locations", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "location_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["location_id"], name: "index_users_locations_on_location_id"
-    t.index ["user_id"], name: "index_users_locations_on_user_id"
   end
 
 end
