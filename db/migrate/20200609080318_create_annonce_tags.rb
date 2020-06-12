@@ -1,6 +1,6 @@
-class CreateAnnoncesTags < ActiveRecord::Migration[6.0]
+class CreateAnnonceTags < ActiveRecord::Migration[6.0]
   def change
-    create_table :annonces_tags do |t|
+    create_table :annonce_tags do |t|
   		t.references :annonce, index: true
   		t.references :tag, index: true
         t.timestamps

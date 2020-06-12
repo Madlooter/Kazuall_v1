@@ -1,6 +1,6 @@
-class CreateUsersGames < ActiveRecord::Migration[6.0]
+class CreateUserGames < ActiveRecord::Migration[6.0]
   def change
-    create_table :users_games do |t|
+    create_table :user_games do |t|
   		t.references :user, index: true 
   		t.references :game, index: true
         t.timestamps

@@ -1,6 +1,6 @@
-class CreateUsersBadges < ActiveRecord::Migration[6.0]
+class CreateUserBadges < ActiveRecord::Migration[6.0]
   def change
-    create_table :users_badges do |t|
+    create_table :user_badges do |t|
   		t.references :user, index: true 
   		t.references :badge, index: true
         t.timestamps
