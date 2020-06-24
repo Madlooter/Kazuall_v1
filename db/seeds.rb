@@ -31,6 +31,7 @@ PrivateMessage.destroy_all
     name: Faker::Name.first_name,
     surname: Faker::Name.last_name,
     email: Faker::Internet.email,
+    nickname: Faker::FunnyName.name,
     password: "admin1",
     password_confirmation: "admin1",
   )

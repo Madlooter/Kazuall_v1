@@ -5,7 +5,6 @@
     <p class="lead">Annonces et services entre gamers.</p>
   </div>
 </div>
-
 <ul>
   <% if user_signed_in? %>
     <li>
@@ -35,3 +34,31 @@
 
   <% end %>
 </ul>
+<center><h1> Les Annonces </h1></center>
+
+<% @annonces_small.each do |annonce| %>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><%= annonce.title %></h5>
+        <h6 class="card-subtitle mb-2 text-muted"><%= annonce.user.nickname %></h6>
+        <h7 class="card-subtitle mb-2 text-muted"><%= annonce.id %>
+        <p class="card-text"><%= annonce.description %></p>
+        <a href="#" class="btn btn-primary">Ca m'intéresse</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><%= annonce.title %></h5>
+        <h6 class="card-subtitle mb-2 text-muted"><%= annonce.user.nickname %></h6>
+        <h7 class="card-subtitle mb-2 text-muted"><%= annonce.id %>
+        <p class="card-text"><%= annonce.description %></p></p>
+        <a href="#" class="btn btn-primary">Ca m'intéresse</a>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
